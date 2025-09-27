@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - Authentic Crafts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #8B4513 0%, #CD853F  50%, #D2691E 100%);
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                linear-gradient(45deg, rgba(139,69,19,0.8) 0%, rgba(160,82,45,0.6) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 20px 10px;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-linear-gradient(
+                    90deg,
+                    rgba(139,69,19,0.1) 0px,
+                    rgba(160,82,45,0.15) 2px,
+                    rgba(139,69,19,0.1) 4px
+                ),
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(139,69,19,0.05) 0px,
+                    rgba(160,82,45,0.1) 1px,
+                    rgba(139,69,19,0.05) 2px
+                );
+            pointer-events: none;
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            width: 100%;
+            max-width: 420px;
+            position: relative;
+            z-index: 1;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .form-header p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .tab-container {
+            display: flex;
+            background: #f5f5f5;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: #8B4513;
+            color: white;
+        }
+
+        .mode-toggle {
+            display: flex;
+            background: #f0f0f0;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            padding: 4px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 10px 16px;
+            background: transparent;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .mode-btn.active {
+            background: #8B4513;
+            color: white;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-grid.two-column {
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-grid.two-column .form-group {
+            min-width: 0; /* Prevents overflow */
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 12px 14px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #8B4513;
+            box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #999;
+            font-size: 13px;
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin-bottom: 25px;
+        }
+
+        .forgot-password a {
+            color: #8B4513;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: #8B4513;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .submit-btn:hover {
+            background: #A0522D;
+        }
+
+        .submit-btn:active {
+            background: #654321;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+            color: #999;
+            font-size: 12px;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #ddd;
+            z-index: -1;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 15px;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .social-btn:hover {
+            background: #f8f8f8;
+            border-color: #8B4513;
+        }
+
+        .footer-text {
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .footer-text a {
+            color: #8B4513;
+            text-decoration: none;
+        }
+
+        .footer-text a:hover {
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 30px 25px;
+                margin: 20px 10px;
+                max-height: 85vh;
+            }
+            
+            .form-grid.two-column {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <h1>Welcome</h1>
+            <p>Continue your journey with authentic crafts</p>
+            
+            <div class="tab-container">
+                <button class="tab active" onclick="switchTab('login')">Login</button>
+                <button class="tab" onclick="switchTab('signup')">Sign Up</button>
+            </div>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="form-content">
+            <div class="mode-toggle">
+                <button type="button" class="mode-btn active" onclick="switchMode('buyer', 'login')">Buyer</button>
+                <button type="button" class="mode-btn" onclick="switchMode('seller', 'login')">Seller</button>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                </div>
+            </div>
+
+            <div class="forgot-password">
+                <a href="#" onclick="showForgotPassword()">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="submit-btn">Continue with Email</button>
+
+            <div class="divider">
+                <span>Continue with</span>
+            </div>
+
+            <div class="social-buttons">
+                <button type="button" class="social-btn" onclick="socialLogin('google')">Google</button>
+                <button type="button" class="social-btn" onclick="socialLogin('facebook')">Facebook</button>
+            </div>
+        </form>
+
+        <!-- Signup Form -->
+        <form id="signupForm" class="form-content hidden">
+            <div class="mode-toggle">
+                <button type="button" class="mode-btn active" onclick="switchMode('buyer', 'signup')">Buyer</button>
+                <button type="button" class="mode-btn" onclick="switchMode('seller', 'signup')">Seller</button>
+            </div>
+
+            <div class="form-grid two-column">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" placeholder="First name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" placeholder="Last name" required>
+                </div>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phoneNo">Phone No.</label>
+                    <input type="tel" id="phoneNo" placeholder="Enter phone number" required>
+                </div>
+            </div>
+
+            <!-- Seller-specific fields -->
+            <div id="sellerFields" class="form-grid hidden">
+                <div class="form-group">
+                    <label for="productCategory">Product Category</label>
+                    <select id="productCategory">
+                        <option value="">Select category</option>
+                        <option value="pottery">Pottery</option>
+                        <option value="textiles">Textiles</option>
+                        <option value="jewelry">Jewelry</option>
+                        <option value="woodwork">Woodwork</option>
+                        <option value="metalwork">Metalwork</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" id="city" placeholder="Enter your city">
+                </div>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" placeholder="Create password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" placeholder="Confirm password" required>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Create Account</button>
+
+            <div class="divider">
+                <span>Continue with</span>
+            </div>
+
+            <div class="social-buttons">
+                <button type="button" class="social-btn" onclick="socialLogin('google')">Google</button>
+                <button type="button" class="social-btn" onclick="socialLogin('facebook')">Facebook</button>
+            </div>
+        </form>
+
+        <div class="footer-text">
+            <span>Don't have an account? <a href="#" onclick="switchTab('signup')">Sign up</a></span>
+        </div>
+    </div>
+
+    <script>
+        let currentMode = 'buyer';
+        let currentTab = 'login';
+
+        function switchTab(tab) {
+            currentTab = tab;
+            
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Show/hide forms
+            document.getElementById('loginForm').classList.toggle('hidden', tab !== 'login');
+            document.getElementById('signupForm').classList.toggle('hidden', tab !== 'signup');
+            
+            // Update footer text
+            const footerText = document.querySelector('.footer-text span');
+            if (tab === 'login') {
+                footerText.innerHTML = 'Don\'t have an account? <a href="#" onclick="switchTab(\'signup\')">Sign up</a>';
+            } else {
+                footerText.innerHTML = 'Already have an account? <a href="#" onclick="switchTab(\'login\')">Login</a>';
+            }
+        }
+
+        function switchMode(mode, formType) {
+            currentMode = mode;
+            
+            // Update mode buttons for current form
+            const form = formType === 'login' ? 'loginForm' : 'signupForm';
+            const container = document.getElementById(form);
+            container.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Show/hide seller-specific fields in signup
+            if (formType === 'signup') {
+                const sellerFields = document.getElementById('sellerFields');
+                sellerFields.classList.toggle('hidden', mode !== 'seller');
+            }
+        }
+
+        function socialLogin(provider) {
+            alert(`${provider.charAt(0).toUpperCase() + provider.slice(1)} login for ${currentMode} would be implemented here`);
+        }
+
+        function showForgotPassword() {
+            alert('Forgot password functionality would be implemented here');
+        }
+
+        // Form submissions
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            console.log('Login attempt:', { email, mode: currentMode });
+            alert(`Login attempt as ${currentMode}: ${email}`);
+        });
+
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('signupEmail').value;
+            const phone = document.getElementById('phoneNo').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            
+            const formData = {
+                firstName,
+                lastName,
+                email,
+                phone,
+                mode: currentMode
+            };
+            
+            if (currentMode === 'seller') {
+                formData.productCategory = document.getElementById('productCategory').value;
+                formData.city = document.getElementById('city').value;
+            }
+            
+            console.log('Signup attempt:', formData);
+            alert(`Account created successfully as ${currentMode}!`);
+        });
+
+        // NEW: Initialize tab from URL param ?tab=login|signup
+        (function initTabFromQuery(){
+            try {
+                const params = new URLSearchParams(window.location.search);
+                const tab = (params.get('tab') || '').toLowerCase();
+                if (tab === 'signup' || tab === 'login') {
+                    // simulate clicking the respective tab button to keep styles in sync
+                    const buttonIndex = tab === 'login' ? 0 : 1;
+                    const buttons = document.querySelectorAll('.tab');
+                    if (buttons[buttonIndex]) {
+                        buttons[buttonIndex].click();
+                    }
+                }
+            } catch {}
+        })();
+    </script>
+</body>
+</html>
